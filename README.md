@@ -1,6 +1,6 @@
----
-
 # **AI Task Prioritizer**
+
+*From chaos to clarity: AI ranks your tasks and explains why.*
 
 An intelligent task-ranking tool that analyzes urgency, impact, effort, and dependencies using LLM-powered reasoning. Paste in your tasks and get a ranked, structured, and explainable priority list — perfect for productivity systems, project planning, and workflow automation.
 
