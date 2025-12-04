@@ -116,6 +116,4 @@ ai-task-prioritizer/
 
 ## 📜 **License**
 
-MIT License. Free for personal and commercial use
-
-===
+MIT License. Free for personal and commercial use.
