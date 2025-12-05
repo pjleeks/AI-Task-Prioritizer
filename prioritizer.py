@@ -177,3 +177,39 @@ def prioritize_tasks(tasks, model="LLM (GPT)"):
         r["priority"] = priority_label(r["score"])
 
     return results
+    # -----------------------------
+# Eisenhower Matrix Classifier
+# -----------------------------
+def eisenhower_matrix(tasks):
+    """
+    tasks: list of dicts like:
+    {
+        "task": "Finish report",
+        "urgency": 0.73,
+        "importance": 0.88,
+        "score": 91
+    }
+    """
+
+    matrix = {
+        "do_now": [],
+        "schedule": [],
+        "delegate": [],
+        "delete": []
+    }
+
+    for t in tasks:
+        urgency = t.get("urgency", 0.5)
+        importance = t.get("importance", 0.5)
+
+        if importance >= 0.5 and urgency >= 0.5:
+            matrix["do_now"].append(t)
+        elif importance >= 0.5 and urgency < 0.5:
+            matrix["schedule"].append(t)
+        elif importance < 0.5 and urgency >= 0.5:
+            matrix["delegate"].append(t)
+        else:
+            matrix["delete"].append(t)
+
+    return matrix
+
