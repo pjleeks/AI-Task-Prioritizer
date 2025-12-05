@@ -31,6 +31,35 @@ def prioritize_tasks(tasks, model="LLM (GPT)"):
     # Sort high → low score
     results = sorted(results, key=lambda x: x["score"], reverse=True)
     return results
+# ---------------------------------------
+# Export Buttons (CSV + JSON)
+# ---------------------------------------
+import pandas as pd
+import json
+import streamlit as st
+from io import StringIO, BytesIO
+
+# Create a DataFrame from results
+df = pd.DataFrame(results)
+
+# CSV Export
+csv_buffer = StringIO()
+df.to_csv(csv_buffer, index=False)
+st.download_button(
+    label="📥 Download CSV",
+    data=csv_buffer.getvalue(),
+    file_name="prioritized_tasks.csv",
+    mime="text/csv"
+)
+
+# JSON Export
+json_buffer = json.dumps(results, indent=2)
+st.download_button(
+    label="📥 Download JSON",
+    data=json_buffer,
+    file_name="prioritized_tasks.json",
+    mime="application/json"
+)
 
 
 # -----------------------------
