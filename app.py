@@ -53,6 +53,37 @@ if st.button("Prioritize Tasks"):
             for t in prioritized_tasks:
                 st.markdown(f"**{t['task']}** — Score: {t['score']} — Priority: {t['priority']}")
                 st.caption(t['reasoning'])
+# ---------------------------------------
+# Display Eisenhower Matrix
+# ---------------------------------------
+st.subheader("🧭 Eisenhower Matrix")
+
+matrix = eisenhower_matrix(results)
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("### ✅ Do Now (Important + Urgent)")
+    for item in matrix["do_now"]:
+        st.write(f"- **{item['task']}** (Score: {item['score']})")
+
+with col2:
+    st.markdown("### 📅 Schedule (Important + Not Urgent)")
+    for item in matrix["schedule"]:
+        st.write(f"- **{item['task']}** (Score: {item['score']})")
+
+# second row
+col3, col4 = st.columns(2)
+
+with col3:
+    st.markdown("### 🤝 Delegate (Not Important + Urgent)")
+    for item in matrix["delegate"]:
+        st.write(f"- **{item['task']}** (Score: {item['score']})")
+
+with col4:
+    st.markdown("### 🗑️ Delete / Minimize (Not Important + Not Urgent)")
+    for item in matrix["delete"]:
+        st.write(f"- **{item['task']}** (Score: {item['score']})")
 
             # Optional: Eisenhower Matrix
             if show_matrix:
