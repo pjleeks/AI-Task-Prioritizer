@@ -1,121 +1,103 @@
-# **AI Task Prioritizer**
+# 🧠 AI Task Prioritizer
 
-*From chaos to clarity: AI ranks your tasks and explains why.*
-
-An intelligent task-ranking tool that analyzes urgency, impact, effort, and dependencies using LLM-powered reasoning. Paste in your tasks and get a ranked, structured, and explainable priority list — perfect for productivity systems, project planning, and workflow automation.
+**From chaos to clarity** — AI ranks your tasks by urgency, importance, dependencies, and effort, helping you focus on what really matters.
 
 ---
 
-## 🚀 **Features**
+## Features
 
-* **LLM-Powered Prioritization**
-  Assigns a 0–100 priority score for each task.
-
-* **Multi-Factor Evaluation**
-  Based on:
-
-  * Urgency
-  * Impact
-  * Effort
-  * Dependencies
-  * Time sensitivity
-
-* **Explainable Results**
-  Each score comes with a rationale so users understand *why* it ranked there.
-
-* **Flexible Input Formats**
-  Accepts:
-
-  * Bullet lists
-  * Paragraphs
-  * JSON arrays
-
-* **Optional Extensions**
-  (Modular — can be added at any time)
-
-  * Eisenhower Matrix view
-  * “Do / Delegate / Automate / Delete” grouping
-  * Export results to CSV or JSON
-  * Offline fallback logic (deterministic scoring if no LLM)
+- Paste tasks in plain text or JSON format
+- AI-driven **prioritization** with scores and reasoning
+- **Eisenhower Matrix** visualization:
+  - ✅ Do Now (Important + Urgent)
+  - 📅 Schedule (Important + Not Urgent)
+  - 🤝 Delegate (Not Important + Urgent)
+  - 🗑️ Delete / Minimize (Not Important + Not Urgent)
+- **Export** prioritized tasks to CSV or JSON, including quadrant info
+- Sidebar options:
+  - Select model (LLM or local fallback)
+  - Show/hide Eisenhower matrix
 
 ---
 
-## 🧠 **How It Works**
+## Installation
 
-1. User enters a list of tasks.
-2. Tasks are sent to the prioritization engine.
-3. The LLM evaluates each task using an internal scoring rubric.
-4. Results are normalized, sorted, and displayed with explanations.
-5. Optional matrix and export tools enhance workflow usability.
+1. Clone this repo:
 
----
+```bash
+git clone https://github.com/yourusername/AI_Task_Prioritizer.git
+cd AI_Task_Prioritizer
+````
 
-## 📂 **Project Structure**
+2. (Optional but recommended) Create a virtual environment:
 
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
-ai-task-prioritizer/
-│
-├── app.py                # Streamlit UI (Option B)
-├── prioritizer.py        # LLM + fallback scoring engine
-├── requirements.txt
-├── README.md
-│
-├── examples/
-│   ├── sample_tasks.txt
-│   └── sample_output.json
-│
-└── assets/
-    └── screenshots/      # Optional UI images
+
+3. Install dependencies:
+
+```bash
+pip install -r requirements.txt
 ```
 
 ---
 
-## 🧩 **Example Input**
+## Usage
 
-```
-- Finish the quarterly report
-- Buy groceries
-- Prepare slides for Monday meeting
-- Respond to client emails
-- Clean the garage
+1. Run the app:
+
+```bash
+streamlit run app.py
 ```
 
----
+2. Paste your tasks into the text area:
 
-## 🧾 **Example Output (Simplified)**
+   * One task per line, or
+   * JSON array of tasks
 
-| Task                              | Score | Priority | Reasoning                                              |
-| --------------------------------- | ----- | -------- | ------------------------------------------------------ |
-| Prepare slides for Monday meeting | 92    | High     | Time-sensitive, high visibility, impacts team workflow |
-| Finish the quarterly report       | 88    | High     | Deadline-driven, high business value                   |
-| Respond to client emails          | 72    | Medium   | Important, but not as time-critical                    |
-| Buy groceries                     | 34    | Low      | Personal, low urgency                                  |
-| Clean the garage                  | 15    | Low      | No deadline, low impact                                |
+3. Click **“Prioritize Tasks”**
 
----
+4. View the **ranked task list** and **Eisenhower matrix**
 
-## 🛠️ **Tech Stack**
-
-* **Streamlit** — front-end UI
-* **Python**
-* **OpenAI API** (or any LLM backend)
-* Optional: local fallback scoring
+5. Download **CSV** or **JSON** with quadrant info
 
 ---
 
-## 🔮 **Roadmap**
+## Example
 
-* [ ] Add model selection (GPT, local models, etc.)
-* [ ] Add Eisenhower Matrix
-* [ ] Add CSV + JSON export
-* [ ] Add web API endpoint
-* [ ] Add Chrome extension version
-* [ ] Add collaborative task mode
+**Input:**
+
+```
+Finish quarterly report
+Buy groceries
+Prepare slides for Monday meeting
+Call mom
+```
+
+**Output:**
+
+| Task                      | Score | Urgency | Importance | Quadrant |
+| ------------------------- | ----- | ------- | ---------- | -------- |
+| Finish quarterly report   | 92    | 0.9     | 0.95       | do_now   |
+| Prepare slides for Monday | 85    | 0.8     | 0.9        | do_now   |
+| Buy groceries             | 60    | 0.6     | 0.6        | schedule |
+| Call mom                  | 50    | 0.5     | 0.5        | schedule |
 
 ---
 
-## 📜 **License**
+## Future Enhancements
 
-MIT License. Free for personal and commercial use.
+* Add confidence scores for prioritization
+* Integrate real LLM API (OpenAI) for smarter scoring
+* “Do / Delegate / Automate / Delete” actionable suggestions
+* Export to Google Sheets or Notion directly
+
+---
+
+## License
+
+MIT License
 
 ---
