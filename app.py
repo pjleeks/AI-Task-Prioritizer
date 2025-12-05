@@ -1,7 +1,13 @@
 # app.py
 import streamlit as st
-from prioritizer import prioritize_tasks
-from prioritizer import eisenhower_matrix
+from prioritizer import prioritize_tasks, eisenhower_matrix
+import pandas as pd
+import json
+from io import StringIO
+
+# ===============================
+# AI Task Prioritizer - Streamlit UI
+# ===============================
 
 st.set_page_config(
     page_title="AI Task Prioritizer",
@@ -15,8 +21,7 @@ st.subheader("From chaos to clarity: AI ranks your tasks and explains why.")
 # --- Sidebar Options ---
 st.sidebar.header("Settings")
 model_option = st.sidebar.selectbox("Select model:", ["LLM (GPT)", "Local fallback"])
-show_matrix = st.sidebar.checkbox("Show Eisenhower Matrix", value=False)
-export_csv = st.sidebar.checkbox("Enable CSV export", value=True)
+show_matrix = st.sidebar.checkbox("Show Eisenhower Matrix", value=True)
 
 # --- Task Input ---
 st.header("Enter your tasks")
@@ -31,9 +36,8 @@ if st.button("Prioritize Tasks"):
     if not task_input.strip():
         st.warning("Please enter at least one task.")
     else:
-        # Handle JSON input OR line input
+        # Parse tasks
         if task_input.strip().startswith("["):
-            import json
             try:
                 tasks = json.loads(task_input)
             except json.JSONDecodeError:
@@ -43,37 +47,64 @@ if st.button("Prioritize Tasks"):
             tasks = [line.strip() for line in task_input.split("\n") if line.strip()]
 
         if tasks:
-
-            # ---------------------------------------
-            # RUN PRIORITIZER LOGIC
-            # ---------------------------------------
+            # Run prioritizer logic
             results = prioritize_tasks(tasks, model=model_option)
 
+            # Generate Eisenhower matrix
+            matrix = eisenhower_matrix(results)
+
+            # Assign quadrant info to each task for export
+            for task in results:
+                for quadrant, items in matrix.items():
+                    if task in items:
+                        task['quadrant'] = quadrant
+                        break
+                else:
+                    task['quadrant'] = "unknown"
+
             # ---------------------------------------
-            # DISPLAY PRIORITIZED TASK LIST
+            # Display Prioritized Task List
             # ---------------------------------------
             st.subheader("📊 Prioritized Task List")
-
             for idx, item in enumerate(results, start=1):
                 st.markdown(f"### {idx}. **{item['task']}**")
                 st.write(f"**Score:** {item['score']}")
                 st.write(f"**Urgency:** {item.get('urgency', 'N/A')}")
                 st.write(f"**Importance:** {item.get('importance', 'N/A')}")
-
                 if "rationale" in item:
                     with st.expander("Rationale"):
                         st.write(item["rationale"])
-
                 st.markdown("---")
 
             # ---------------------------------------
-            # DISPLAY EISENHOWER MATRIX
+            # Export Buttons (CSV + JSON)
+            # ---------------------------------------
+            df = pd.DataFrame(results)
+
+            # CSV Export
+            csv_buffer = StringIO()
+            df.to_csv(csv_buffer, index=False)
+            st.download_button(
+                label="📥 Download CSV",
+                data=csv_buffer.getvalue(),
+                file_name="prioritized_tasks.csv",
+                mime="text/csv"
+            )
+
+            # JSON Export
+            json_buffer = json.dumps(results, indent=2)
+            st.download_button(
+                label="📥 Download JSON",
+                data=json_buffer,
+                file_name="prioritized_tasks.json",
+                mime="application/json"
+            )
+
+            # ---------------------------------------
+            # Display Eisenhower Matrix
             # ---------------------------------------
             if show_matrix:
                 st.subheader("🧭 Eisenhower Matrix")
-
-                matrix = eisenhower_matrix(results)
-
                 col1, col2 = st.columns(2)
 
                 with col1:
@@ -81,20 +112,15 @@ if st.button("Prioritize Tasks"):
                     for item in matrix["do_now"]:
                         st.write(f"- **{item['task']}** (Score: {item['score']})")
 
+                    st.markdown("### 🤝 Delegate (Not Important + Urgent)")
+                    for item in matrix["delegate"]:
+                        st.write(f"- **{item['task']}** (Score: {item['score']})")
+
                 with col2:
                     st.markdown("### 📅 Schedule (Important + Not Urgent)")
                     for item in matrix["schedule"]:
                         st.write(f"- **{item['task']}** (Score: {item['score']})")
 
-                # second row
-                col3, col4 = st.columns(2)
-
-                with col3:
-                    st.markdown("### 🤝 Delegate (Not Important + Urgent)")
-                    for item in matrix["delegate"]:
-                        st.write(f"- **{item['task']}** (Score: {item['score']})")
-
-                with col4:
                     st.markdown("### 🗑️ Delete / Minimize (Not Important + Not Urgent)")
                     for item in matrix["delete"]:
-                        st.write(f"- **{item['score']}** (Score: {item['score']})")
+                        st.write(f"- **{item['task']}** (Score: {item['score']})")
