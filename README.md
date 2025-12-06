@@ -1,22 +1,30 @@
 # 🧠 AI Task Prioritizer
 
+![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python\&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Version](https://img.shields.io/badge/Version-1.0.0-yellow)
+![Build](https://img.shields.io/github/actions/workflow/status/pjleeks/AI-Task-Prioritizer/python-app.yml?branch=main)
+[![Try it on Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/pjleeks/AI-Task-Prioritizer/main/app.py)
+
 **From chaos to clarity** — AI ranks your tasks by urgency, importance, dependencies, and effort, helping you focus on what really matters.
 
 ---
 
 ## Features
 
-- Paste tasks in plain text or JSON format
-- AI-driven **prioritization** with scores and reasoning
-- **Eisenhower Matrix** visualization:
-  - ✅ Do Now (Important + Urgent)
-  - 📅 Schedule (Important + Not Urgent)
-  - 🤝 Delegate (Not Important + Urgent)
-  - 🗑️ Delete / Minimize (Not Important + Not Urgent)
-- **Export** prioritized tasks to CSV or JSON, including quadrant info
-- Sidebar options:
-  - Select model (LLM or local fallback)
-  - Show/hide Eisenhower matrix
+* Paste tasks in **plain text** or **JSON format**
+* AI-driven **prioritization** with scores and reasoning
+* **Eisenhower Matrix** visualization:
+
+  * ✅ Do Now (Important + Urgent)
+  * 📅 Schedule (Important + Not Urgent)
+  * 🤝 Delegate (Not Important + Urgent)
+  * 🗑️ Delete / Minimize (Not Important + Not Urgent)
+* Export prioritized tasks to **CSV** or **JSON**, including quadrant info
+* Sidebar options:
+
+  * Select model (**LLM** or **local fallback**)
+  * Show/hide **Eisenhower matrix**
 
 ---
 
@@ -25,11 +33,11 @@
 1. Clone this repo:
 
 ```bash
-git clone https://github.com/yourusername/AI_Task_Prioritizer.git
-cd AI_Task_Prioritizer
-````
+git clone https://github.com/pjleeks/AI-Task-Prioritizer.git
+cd AI-Task-Prioritizer
+```
 
-2. (Optional but recommended) Create a virtual environment:
+2. (Optional) Create a virtual environment:
 
 ```bash
 python3 -m venv venv
@@ -74,6 +82,7 @@ Finish quarterly report
 Buy groceries
 Prepare slides for Monday meeting
 Call mom
+Schedule team meeting
 ```
 
 **Output:**
@@ -89,15 +98,20 @@ Call mom
 
 ## Future Enhancements
 
-* Add confidence scores for prioritization
+* Confidence scores for prioritization
 * Integrate real LLM API (OpenAI) for smarter scoring
 * “Do / Delegate / Automate / Delete” actionable suggestions
-* Export to Google Sheets or Notion directly
+* Export directly to **Google Sheets** or **Notion**
 
 ---
 
 ## License
 
 MIT License
+
+---
+
+✅ The **build badge** assumes you have a GitHub Actions workflow named `python-app.yml` in `.github/workflows/` that runs on pushes to `main`.
+✅ The **Streamlit badge** links to your deployed app (adjust the URL once it’s published).
 
 ---
